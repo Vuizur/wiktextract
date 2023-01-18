@@ -123,6 +123,29 @@ def get_languages_cs_sk(wk_lang_code: str):
     
     save_json_file(lang_data, wk_lang_code)
     
+def get_languages_ru():
+    # https://ru.wiktionary.org/wiki/%D0%9C%D0%BE%D0%B4%D1%83%D0%BB%D1%8C:language/data
+    source_code = get_source_code("ru", "Модуль:language/data")
+    print(source_code)
+
+    lang_data = {}
+    for line in source_code.splitlines():
+        line = line.strip()
+        if line.startswith("m["):
+            lang_code = line[2:line.index("]")]
+            lang_code = lang_code.replace('\"', '')
+            lang_data[lang_code] = []
+        elif line.startswith("name = "):
+            lang_name = line[7:line.index(",")]
+
+            lang_name = lang_name.replace('\"', '')
+            lang_name = lang_name.replace(" [язык]", "")
+            lang_name = lang_name.replace("{", "").replace("}", "")
+            lang_data[lang_code].append(lang_name)
+    
+    lang_data = {k: v for k, v in lang_data.items() if v != [] and v != ["—"]}
+
+    save_json_file(lang_data, "ru")
 
 def main():
     parser = argparse.ArgumentParser()
@@ -137,6 +160,8 @@ def main():
             get_fr_languages()
         case "cs" | "sk":
             get_languages_cs_sk(args.lang_code)
+        case "ru":
+            get_languages_ru()
 
 
 if __name__ == "__main__":
