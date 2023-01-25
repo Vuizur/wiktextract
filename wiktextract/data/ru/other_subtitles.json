@@ -1,4 +1,7 @@
 {
+    "compounds": [
+        "родственные слова"
+    ],
     "etymology": [
         "этимология"
     ],
@@ -8,5 +11,7 @@
     "pronunciation": [
         "произношение"
     ],
-    "translations": "перевод"
+    "translations": "перевод",
+    "ignored_sections": [],
+    "sense": "значение"
 }
